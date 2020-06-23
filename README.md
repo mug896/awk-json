@@ -2,7 +2,6 @@
 
 ## 1. Pretty printing
 
-sample data
 
 ```bash
 $ cat sample.json
