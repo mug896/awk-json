@@ -1,6 +1,6 @@
-# awk script for json search
+## awk script for json search
 
-## 1. Pretty printing
+### 1. Pretty printing
 
 
 ```bash
@@ -60,7 +60,7 @@ $ ./json.sh sample.json
 ```
 
 
-## 2. Searching
+### 2. Searching
 
 |     Option     |   Description   |
 | -------------- | --------------- |
