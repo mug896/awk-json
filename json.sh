@@ -5,7 +5,7 @@ BEGIN {
     INDENT = 2;
     keyword["true"]; keyword["false"]; keyword["null"]
     token[0] = opt1 = opt2 = ""
-    idx = sdx = sblock = 0
+    idx = sdx = 0
 }
 
 BEGINFILE {
@@ -20,13 +20,12 @@ END {
 }
 
 
-function search (start, path,       ckey, key, val) {
+function search (start, path, sblock,       ckey, key, val) {
     for (sdx = start; sdx < idx; sdx++) { 
         switch (token[sdx]) {
             case "{" :
             case "[" : 
-                sblock = sdx
-                search( sdx + 1, path "/" ckey)
+                search( sdx + 1, path "/" ckey, sdx)
                 break
             case "}" :
             case "]" : return
@@ -61,8 +60,7 @@ function tokenize (char) {
 
 function t_keyword (str) {
     while (getline) {
-        if ( RT ~ /[a-z]/ ) 
-            str = str RT
+        if ( RT ~ /[a-z]/ ) str = str RT
         else {
             if ( str in keyword ) token[idx++] = str
             break
@@ -73,8 +71,7 @@ function t_keyword (str) {
 
 function t_number (str) {
     while (getline) {
-        if ( RT ~ /[0-9.eE+-]/ ) 
-            str = str RT
+        if ( RT ~ /[0-9.eE+-]/ ) str = str RT
         else {
             token[idx++] = str
             break
@@ -85,12 +82,10 @@ function t_number (str) {
 
 function t_string (    str, prev) {
     while (getline) {
-        if ( RT != "\"" ) 
-            str = str RT
+        if ( RT != "\"" ) str = str RT
         else {
-            if ( prev == "\\" ) {
-                str = str RT
-            } else {
+            if ( prev == "\\" ) str = str RT
+            else {
                 token[idx++] = "\"" str "\""
                 break
             }
@@ -123,8 +118,8 @@ function pretty_print (start,    i, depth, prev, cur) {
                 depth--
                 printf (prev == "[" ? " " : "\n" space(depth)) "]"
                 break
-            case "," : printf(","); break
-            case ":" : printf(": "); break
+            case "," : printf ","; break
+            case ":" : printf ": "; break
             default : 
                 printf (prev == ":" ? "" : "\n" space(depth)) cur
         }
