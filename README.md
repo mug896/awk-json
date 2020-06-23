@@ -63,8 +63,15 @@ $ ./json.sh sample.json
 
 ## 2. Searching
 
+- `-k` : Print all keys
+
+- `-s key` : Print key's values
+
+- `-s key=value` : Print blocks of key=value
+
+
 ```bash
-$ ./json.sh -k sample.json       # 전체 key 값을 출력
+$ ./json.sh -k sample.json
 /squadName
 /homeTown
 /formed
@@ -84,13 +91,11 @@ $ ./json.sh -k sample.json       # 전체 key 값을 출력
 /members/secretIdentity
 /members/powers
 
-# key 값이 /members/name 인 value 를 모두 출력
 $ ./json.sh -s /members/name sample.json
 "Molecule Man"
 "Madame Uppercut"
 "Eternal Flame"
 
-# /members/name 의 value 가 "Molecule Man" 인 전체 블록을 출력
 $ ./json.sh -s /members/name="Molecule Man" sample.json 
 
 {
