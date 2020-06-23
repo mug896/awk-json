@@ -16,7 +16,7 @@ BEGINFILE {
 { tokenize(RT) }
 
 END { 
-    if (opt1) search(0, ""); else pretty_print(0)
+    if (opt1) search(0); else pretty_print(0)
 }
 
 
