@@ -1,6 +1,8 @@
-# awk script for jsone search
+# awk script for json search
 
 ## 1. Pretty printing
+
+sample data
 
 ```bash
 $ cat sample.json
@@ -11,7 +13,9 @@ $ cat sample.json
 "Damage resistance","Superhuman reflexes"]},{"name":"Eternal Flame","age":1000000,
 "secretIdentity":"Unknown","powers":["Immortality","Heat Immunity","Teleportation",
 "Interdimensional travel"]}]}
+```
 
+```bash
 $ ./json.sh sample.json
 
 {
