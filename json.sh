@@ -16,16 +16,16 @@ BEGINFILE {
 { tokenize(RT) }
 
 END { 
-    if (opt1) search(0); else pretty_print(0)
+    if (opt1) search(); else pretty_print(0)
 }
 
 
-function search (start, path, sblock,       ckey, key, val) {
-    for (sdx = start; sdx < idx; sdx++) { 
+function search (path, sblock,       ckey, key, val) {
+    for (    ; sdx < idx; sdx++) { 
         switch (token[sdx]) {
             case "{" :
             case "[" : 
-                search( sdx + 1, path "/" ckey, sdx)
+                search( path "/" ckey, sdx++)
                 break
             case "}" :
             case "]" : return
