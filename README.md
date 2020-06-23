@@ -111,7 +111,7 @@ $ ./json.sh -s /members/name="Molecule Man" sample.json
 
 #### Using with pipe
 
-Use `-` (stdin) instead of file name
+Use <kbd>-</kbd> (stdin) instead of file name
 
 ```bash
 $ cat sample.json | ./json.sh -s /members/name="Molecule Man" -
