@@ -63,11 +63,11 @@ $ ./json.sh sample.json
 
 ## 2. Searching
 
-- `-k` : Print all keys
-
-- `-s key` : Print key's values
-
-- `-s key=value` : Print blocks of key=value
+|     Option     |     Detail     |
+| -------------- | -------------- |
+| `-k`           | Print all keys |
+| `-s key`       | Print key's values |
+| `-s key=value` | Print blocks of key=value |
 
 
 ```bash
