@@ -51,10 +51,12 @@ function search (path, sblock,       ckey, key, val) {
 
 function tokenize (char) {
     switch (char) {
-        case /{|}|\[|]|:|,/  : token[idx++] = char; break
-        case "\""            : t_string(); break
-        case /[0-9-]/        : t_number(char); break
-        case /[a-z]/         : t_keyword(char); break
+        case "{" : case "}" : 
+        case "[" : case "]" : 
+        case ":" : case "," : token[idx++] = char; break
+        case "\""           : t_string(); break
+        case /[0-9-]/       : t_number(char); break
+        case /[a-z]/        : t_keyword(char); break
     }
 }
 
