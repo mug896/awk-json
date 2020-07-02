@@ -1,11 +1,11 @@
 #!/usr/bin/env -S gawk -E
 
 BEGIN {
-    RS="(.)"
+    RS="^$"; FS=""
     INDENT = 2;
     keyword["true"]; keyword["false"]; keyword["null"]
     token[0] = opt1 = opt2 = ""
-    idx = sdx = 0
+    idx = cdx = 0
 }
 
 BEGINFILE {
@@ -13,7 +13,7 @@ BEGINFILE {
     if ( opt1 == "-s" && opt2 == "" ) { opt2 = FILENAME; nextfile }
 }
 
-{ tokenize(RT) }
+{ tokenize() }
 
 END { 
     if (opt1) search(); else pretty_print(0)
@@ -21,27 +21,27 @@ END {
 
 
 function search (path, sblock,       ckey, key, val) {
-    for (    ; sdx < idx; sdx++) { 
-        switch (token[sdx]) {
+    for (    ; cdx < idx; cdx++) { 
+        switch (token[cdx]) {
             case "{" :
             case "[" : 
-                search( path "/" ckey, sdx++)
+                search( path "/" ckey, cdx++)
                 break
             case "}" :
             case "]" : return
             case ":" : 
-                ckey = gensub( /^"(.*)"$/, "\\1", "g", token[sdx - 1])
+                ckey = gensub( /^"(.*)"$/, "\\1", "g", token[cdx - 1])
                 key  = gensub( /\/{2,}/, "/", "g", path "/" ckey)
                 if ( opt1 == "-k" ) print key 
                 else if ( opt1 == "-s" ) {
                     if ( opt2 == key ) {
-                        switch( token[sdx + 1] ) {
+                        switch( token[cdx + 1] ) {
                             case "[" :
-                            case "{" : pretty_print(sdx + 1); break
-                            default  : print token[sdx + 1]
+                            case "{" : pretty_print(cdx + 1); break
+                            default  : print token[cdx + 1]
                         }
                     } else {
-                        val = gensub( /^"(.*)"$/, "\\1", "g", token[sdx + 1])
+                        val = gensub( /^"(.*)"$/, "\\1", "g", token[cdx + 1])
                         if ( opt2 == key "=" val ) pretty_print(sblock)
                     }
                 }
@@ -49,51 +49,43 @@ function search (path, sblock,       ckey, key, val) {
     }
 }
 
-function tokenize (char) {
-    switch (char) {
-        case "{" : case "}" : 
-        case "[" : case "]" : 
-        case ":" : case "," : token[idx++] = char; break
-        case "\""           : t_string(); break
-        case /[0-9-]/       : t_number(char); break
-        case /[a-z]/        : t_keyword(char); break
-    }
-}
-
-function t_keyword (str) {
-    while (getline) {
-        if ( RT ~ /[a-z]/ ) str = str RT
-        else {
-            if ( str in keyword ) token[idx++] = str
-            break
+function tokenize (       i) {
+    for (i=1; i <= NF; i++) {
+        switch ($i) {
+            case "{" : case "}" : 
+            case "[" : case "]" : 
+            case ":" : case "," : token[idx++] = $i; break
+            case "\""           : i = t_string(i+1); break
+            case /[0-9-]/       : i = t_number(i); break
+            case /[a-z]/        : i = t_keyword(i); break
         }
     }
-    tokenize(RT)
 }
 
-function t_number (str) {
-    while (getline) {
-        if ( RT ~ /[0-9.eE+-]/ ) str = str RT
-        else {
-            token[idx++] = str
-            break
-        }
-    }
-    tokenize(RT)
+function t_keyword (i,     res) {
+    while ( $i ~ /[a-z]/ ) res = res $(i++)
+    if ( res in keyword ) token[idx++] = res
+    return i - 1
 }
 
-function t_string (    str, prev) {
-    while (getline) {
-        if ( RT != "\"" ) str = str RT
+function t_number (i,     res) {
+    while ( $i ~ /[0-9.eE+-]/ ) res = res $(i++)
+    token[idx++] = res
+    return i - 1
+}
+
+function t_string (i,     res) {
+    while (1) {
+        if ( $i != "\"" ) res = res $(i++)
         else {
-            if ( prev == "\\" ) str = str RT
+            if ( $(i-1) == "\\" ) res = res $(i++)
             else {
-                token[idx++] = "\"" str "\""
+                token[idx++] = "\"" res "\""
                 break
             }
         }
-        prev = RT
     }
+    return i
 }
 
 function space (depth,   i, sp) { 
@@ -127,5 +119,5 @@ function pretty_print (start,    i, depth, prev, cur) {
         }
         if (depth == 0) break
     }
-    print
+    print ""
 }
