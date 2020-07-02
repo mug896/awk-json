@@ -50,7 +50,7 @@ function search (path, sblock,       ckey, key, val) {
 }
 
 function tokenize (       i) {
-    for (i=1; i <= NF; i++) {
+    for ( i=1; i <= NF; i++ ) {
         switch ($i) {
             case "{" : case "}" : 
             case "[" : case "]" : 
