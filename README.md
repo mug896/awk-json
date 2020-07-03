@@ -65,7 +65,7 @@ $ ./json.sh sample.json
 |     Option     |   Description   |
 | -------------- | --------------- |
 | `-k`           | print all keys |
-| `-s key`       | search key's values |
+| `-s key`       | search values of key |
 | `-s key=value` | search blocks that contain key=value |
 
 
