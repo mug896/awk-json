@@ -75,7 +75,7 @@ function t_number (i,     res) {
 }
 
 function t_string (i,     res) {
-    while (1) {
+    while ( i <= NF ) {
         if ( $i != "\"" ) res = res $(i++)
         else {
             if ( $(i-1) == "\\" ) res = res $(i++)
