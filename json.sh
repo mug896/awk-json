@@ -115,7 +115,7 @@ function pretty_print (start,     i, depth, prev, cur) {
             case "," : printf ","; break
             case ":" : printf ": "; break
             default : 
-                printf (prev == ":" ? "" : "\n" space(depth)) cur
+                printf (prev == ":" ? "" : "\n" space(depth)) gensub(/%/,"%%","g",cur)
         }
         if (depth == 0) break
     }
