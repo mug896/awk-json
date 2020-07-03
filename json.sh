@@ -88,13 +88,13 @@ function t_string (i,     res) {
     return i
 }
 
-function space (depth,   i, sp) { 
+function space (depth,     i, sp) { 
     depth = depth * INDENT
     for (i=0; i < depth; i++) sp = sp " "
     return sp
 }
 
-function pretty_print (start,    i, depth, prev, cur) {
+function pretty_print (start,     i, depth, prev, cur) {
     for ( i = start; i < idx; i++ ) {
         prev = cur; cur = token[i]
         switch (cur) {
