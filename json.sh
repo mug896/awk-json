@@ -21,7 +21,7 @@ END {
 
 
 function search (path, sblock,       ckey, key, val) {
-    for (    ; cdx < idx; cdx++) { 
+    for (    ; cdx < idx; cdx++ ) { 
         switch (token[cdx]) {
             case "{" :
             case "[" : 
@@ -95,7 +95,7 @@ function space (depth,   i, sp) {
 }
 
 function pretty_print (start,    i, depth, prev, cur) {
-    for (i = start; i < idx; i++) {
+    for ( i = start; i < idx; i++ ) {
         prev = cur; cur = token[i]
         switch (cur) {
             case "{" : 
