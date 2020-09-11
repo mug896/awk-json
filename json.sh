@@ -70,7 +70,7 @@ function t_keyword (i,     res) {
 
 function t_number (i,     res) {
     while ( $i ~ /[0-9.eE+-]/ ) res = res $(i++)
-    if ( res ~ /^-?[0-9]+(\.[0-9]+)?([eE][+-][0-9]+)?$/ ) 
+    if ( res ~ /^-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-][0-9]+)?$/ )
         token[idx++] = res
     return i - 1
 }
